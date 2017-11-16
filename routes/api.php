@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 Route::get('/Display','ResumeController@index');
 Route::post('/insert', 'ResumeController@store');
 Route::post('/delete', 'ResumeController@destory');
+Route::get('/Templates','TemplateController@setUp');
 
 Route::post('/update', [
   'uses' => 'ResumeController@update',
@@ -18,8 +19,8 @@ Route::post('/forgotPassword', [
   'middleware' => 'jwt.auth'
 ]);
 
-Route::post('auth/register', 'UserController@register');
-Route::post('auth/login', 'UserController@login');
+// Route::post('auth/register', 'UserController@register');
+// Route::post('auth/login', 'UserController@login');
 
 Route::post('/register',[
   'uses' => 'UserController@register'

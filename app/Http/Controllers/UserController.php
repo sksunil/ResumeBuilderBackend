@@ -28,7 +28,7 @@ class UserController extends Controller
           'password' => bcrypt($request->get('password'))
         ]);
 
-          return view('auth.login');
+          return $user['name'];
     //  return response()->json(['status'=>true,'message'=>'User created successfully','data'=>$user]);
     }
 
