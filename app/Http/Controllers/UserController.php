@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use JWTAuth;
 use App\User;
 use JWTAuthException;
+
 class UserController extends Controller
 {
     private $user;
@@ -27,12 +28,12 @@ class UserController extends Controller
           'password' => bcrypt($request->get('password'))
         ]);
 
-          //return view('auth.login');
-      return response()->json(['status'=>true,'message'=>'User created successfully','data'=>$user]);
+          return view('auth.login');
+    //  return response()->json(['status'=>true,'message'=>'User created successfully','data'=>$user]);
     }
 
     public function login(Request $request){
-      
+
       $this->validate($request,[
         'email' =>'required',
         'password' =>'required',
@@ -50,7 +51,7 @@ class UserController extends Controller
             return response()->json(['failed_to_create_token'], 500);
         }
 
-        //return view('layouts.app');
+      //  return view('layouts.app');
         //return response()->json(compact('token','email'));
 
         return response()->json([

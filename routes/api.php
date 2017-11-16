@@ -6,9 +6,15 @@ use Illuminate\Http\Request;
 
 Route::get('/Display','ResumeController@index');
 Route::post('/insert', 'ResumeController@store');
+Route::post('/delete', 'ResumeController@destory');
 
 Route::post('/update', [
   'uses' => 'ResumeController@update',
+  'middleware' => 'jwt.auth'
+]);
+
+Route::post('/forgotPassword', [
+  'uses' => 'ForgotPassword@postReset',
   'middleware' => 'jwt.auth'
 ]);
 
