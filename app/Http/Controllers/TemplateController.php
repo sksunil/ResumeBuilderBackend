@@ -37,9 +37,9 @@ class TemplateController extends Controller
       if(DB::table('templates')->count() < 1){
           $this->insert();
       }
-      
-      $template = DB::table('templates')->get();
 
+      $data = DB::table('templates')->project(['_id' => 0])->get();
+      $template = $data['0'];
       return $template;
     }
 

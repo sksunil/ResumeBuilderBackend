@@ -81,7 +81,7 @@ class ResumeController extends Controller
     public function index(){
     //$resume =  Resume::all();
     $user = JWTAuth::parseToken()->toUser()->value('email');
-    $resume= Resume::where('data.resume.info.email', '='  , $user)->get();
+    $resume= Resume::where('data.resume.info.email', '='  , $user)->project(['_id' => 0])->get();
     return $resume;
 
     }
@@ -114,9 +114,9 @@ class ResumeController extends Controller
         return response()->json(['message' => 'User not Found'] , 404);
       }
       $user = JWTAuth::parseToken()->toUser()->value('email');
-      $resume = Resume::where('data.resume.info.email', '='  , $user)->get();
+      $resume = Resume::where('data.resume.info.email', '='  , $user)->project(['_id' => 0])->get();
       $template = $resume['0']['data']['template'];
-      dd($template);
+      return $template;
 
     }
 
