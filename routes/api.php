@@ -4,10 +4,12 @@ use Illuminate\Http\Request;
 
 
 
-Route::get('/Display','ResumeController@index');
+Route::get('/display','ResumeController@index');
 Route::post('/insert', 'ResumeController@store');
-Route::post('/delete', 'ResumeController@destory');
-Route::get('/Templates','TemplateController@setUp');
+Route::delete('/delete', 'ResumeController@destory');
+Route::patch('/update','ResumeController@update');
+Route::get('/templates','TemplateController@setUp');
+Route::post('/userTemplates','ResumeController@userTemplates');
 
 Route::post('/update', [
   'uses' => 'ResumeController@update',

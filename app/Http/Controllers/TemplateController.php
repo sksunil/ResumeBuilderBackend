@@ -11,7 +11,8 @@ class TemplateController extends Controller
 {
     //
     protected $fillable = ['id','name','description'];
-    public function setUp(){
+    public function insert(){
+
 
       $templates = [];
 
@@ -27,7 +28,18 @@ class TemplateController extends Controller
       $templates[4]->{'description'} = 'THIS IS DAIICT4';
 
       DB::table('templates')->insert($templates);
+
+    }
+
+    public function setUp(){
+
+
+      if(DB::table('templates')->count() < 1){
+          $this->insert();
+      }
+      
       $template = DB::table('templates')->get();
+
       return $template;
     }
 
