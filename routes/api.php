@@ -4,9 +4,12 @@ use Illuminate\Http\Request;
 
 
 
-Route::get('/Display','ResumeController@index');
+Route::get('/display','ResumeController@index');
 Route::post('/insert', 'ResumeController@store');
-Route::post('/delete', 'ResumeController@destory');
+Route::delete('/delete', 'ResumeController@destory');
+Route::patch('/update','ResumeController@update');
+Route::get('/templates','TemplateController@setUp');
+Route::get('/userTemplates','ResumeController@userTemplates');
 
 Route::post('/update', [
   'uses' => 'ResumeController@update',
@@ -18,8 +21,8 @@ Route::post('/changePassword', [
   'middleware' => 'jwt.auth'
 ]);
 
-Route::post('auth/register', 'UserController@register');
-Route::post('auth/login', 'UserController@login');
+// Route::post('auth/register', 'UserController@register');
+// Route::post('auth/login', 'UserController@login');
 
 Route::post('/register',[
   'uses' => 'UserController@register'

@@ -11,6 +11,7 @@ use App\Position;
 use App\Internship;
 use App\Award;
 use App\Hobby;
+use App\Template;
 use JWTAuth;
 
 
@@ -35,6 +36,7 @@ class ResumeController extends Controller
 
 
 
+
          $name = $resume['info']['name'];
          $email = $resume['info']['email'];
          $address = $resume['info']['address'];
@@ -48,6 +50,8 @@ class ResumeController extends Controller
          $user->{'data.resume.info.address'} = $address;
          $user->{'data.resume.info.dob'} = $dob;
 
+         $templates = $data['data']['template'];
+         $user->{'data.template'} = $this->getTemplates($templates);
 
         $degrees = $resume['degree'];
         $user->{'data.resume.degree'} = $this->getDegrees($degrees);
@@ -69,22 +73,38 @@ class ResumeController extends Controller
         $user->{'data.resume.hobby'} = $this->getHobby($hobbies);
 
         $user->save();
-        return view('welcome');
+
+        //return view('welcome');
     }
 
 
+<<<<<<< HEAD
     public function index(){                                      //Display method
     $resume =  Resume::all();
     $email = JWTAuth::parseToken()->toUser()->value('email');
     $resume= Resume::where('data.resume.info.email', '='  , $email)->get();
+=======
+    public function index(){
+    //$resume =  Resume::all();
+    $user = JWTAuth::parseToken()->toUser()->value('email');
+    $resume= Resume::where('data.resume.info.email', '='  , $user)->project(['_id' => 0])->get();
+    return $resume;
+>>>>>>> cd2ec7f422bc6d654ca8b72f856db2eef6e11987
 
     }
 
     public function destory()                                   //Delete method
     {
+<<<<<<< HEAD
       $resume =  Resume::all();
       $email = JWTAuth::parseToken()->toUser()->value('email');
       $resume= Resume::where('data.resume.info.email', '='  , $email)->delete();
+=======
+      //$resume =  Resume::all();
+      $user = JWTAuth::parseToken()->toUser()->value('email');
+      $resume= Resume::where('data.resume.info.email', '='  , $user)->delete();
+
+>>>>>>> cd2ec7f422bc6d654ca8b72f856db2eef6e11987
     }
 
 
@@ -94,13 +114,46 @@ class ResumeController extends Controller
         return response()->json(['message' => 'User not Found'] , 404);
       }
 
+<<<<<<< HEAD
         $email = JWTAuth::parseToken()->toUser()->value('email');
          Resume::where('data.resume.info.email', '='  , $email)->update($request->all());
          return "sucess!";
+=======
+        $user = JWTAuth::parseToken()->toUser()->value('email');
+         Resume::where('data.resume.info.email', '='  , $user)->update($request->all());
+
+
+>>>>>>> cd2ec7f422bc6d654ca8b72f856db2eef6e11987
 
 
     }
 
+    public function userTemplates(){
+      if(!$user = JWTAuth::parseToken()->authenticate()){
+        return response()->json(['message' => 'User not Found'] , 404);
+      }
+      $user = JWTAuth::parseToken()->toUser()->value('email');
+      $resume = Resume::where('data.resume.info.email', '='  , $user)->project(['_id' => 0])->get();
+      $template = $resume['0']['data']['template'];
+      return $template;
+
+    }
+
+    protected function getTemplates($templates){
+      $userTemplates = [];
+      if (count($templates) > 0) {
+          foreach ($templates as $template) {
+              $userTemplates[] = new Template(
+                  $template['id'],
+                  $template['name']
+
+              );
+          }
+    }
+    return $userTemplates;
+
+
+    }
     protected function getProjects($projects)
     {
           $userProjects = [];
