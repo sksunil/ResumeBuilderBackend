@@ -9,7 +9,7 @@ Route::post('/insert', 'ResumeController@store');
 Route::delete('/delete', 'ResumeController@destory');
 Route::patch('/update','ResumeController@update');
 Route::get('/templates','TemplateController@setUp');
-Route::post('/userTemplates','ResumeController@userTemplates');
+Route::get('/userTemplates','ResumeController@userTemplates');
 
 Route::post('/update', [
   'uses' => 'ResumeController@update',

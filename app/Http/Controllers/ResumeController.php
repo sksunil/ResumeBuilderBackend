@@ -109,7 +109,7 @@ class ResumeController extends Controller
 
     }
 
-    public function userTemplates(Request $request){
+    public function userTemplates(){
       if(!$user = JWTAuth::parseToken()->authenticate()){
         return response()->json(['message' => 'User not Found'] , 404);
       }
