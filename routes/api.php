@@ -21,6 +21,10 @@ Route::post('/changePassword', [
   'middleware' => 'jwt.auth'
 ]);
 
+Route::get('/userProfile', [
+  'uses' => 'UserController@userProfile',
+  'middleware' => 'jwt.auth'
+]);
 // Route::post('auth/register', 'UserController@register');
 // Route::post('auth/login', 'UserController@login');
 
