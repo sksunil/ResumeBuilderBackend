@@ -6,12 +6,12 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use JWTAuth;
-use App\Http\Controllers\ForgotPassword;
+use App\Http\Controllers\ChangePassword;
 use App\User;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use JWTAuthException;
 
-class ForgotPassword extends Controller
+class ChangePassword extends Controller
 {
   public function postReset(Request $request)
 	{
@@ -28,9 +28,20 @@ class ForgotPassword extends Controller
       $email=$credentials['email'];
       $password = bcrypt($credentials['password']);
       User::where('email', '=' , $email)->update(array('password' => $password));
-      return "sucess!";  
+      return "Password Change sucessFully!";    //return login page 
 
     }
+
+
+// public function sendMail()
+// {
+// $to = 'harshadakhani8882@gmail.com';
+// $subject = 'My subject';
+// $txt = 'Hello world!';
+// $headers = 'From: sksunilkumawat1995@gmail.com';
+// $d=mail($to,$subject,$txt,$headers);
+// dd($d);
+// }
 
 
 	}

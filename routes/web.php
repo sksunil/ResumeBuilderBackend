@@ -19,6 +19,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+//Route::get('/email', 'ForgotPassword@sendMail');
+
 Route::post('register', 'UserController@register');
 Route::post('login', 'UserController@login');
 Route::group(['middleware' => 'jwt.auth'], function () {

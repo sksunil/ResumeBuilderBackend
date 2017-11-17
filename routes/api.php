@@ -13,8 +13,8 @@ Route::post('/update', [
   'middleware' => 'jwt.auth'
 ]);
 
-Route::post('/forgotPassword', [
-  'uses' => 'ForgotPassword@postReset',
+Route::post('/changePassword', [
+  'uses' => 'ChangePassword@postReset',
   'middleware' => 'jwt.auth'
 ]);
 

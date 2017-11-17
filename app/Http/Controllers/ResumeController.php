@@ -24,7 +24,7 @@ class ResumeController extends Controller
     protected $fillable = ['name','email','address','dob'];
 
 
-    public function store(Request $request){
+    public function store(Request $request){                   //insert method
       if(! $user = JWTAuth::parseToken()->authenticate()){
         return response()->json(['message' => 'User not Found'] , 404);
       }
@@ -73,29 +73,29 @@ class ResumeController extends Controller
     }
 
 
-    public function index(){
+    public function index(){                                      //Display method
     $resume =  Resume::all();
-    $user = JWTAuth::parseToken()->toUser()->value('email');
-    $resume= Resume::where('data.resume.info.email', '='  , $user)->get();
+    $email = JWTAuth::parseToken()->toUser()->value('email');
+    $resume= Resume::where('data.resume.info.email', '='  , $email)->get();
 
     }
 
-    public function destory()
+    public function destory()                                   //Delete method
     {
       $resume =  Resume::all();
-      $user = JWTAuth::parseToken()->toUser()->value('email');
-      $resume= Resume::where('data.resume.info.email', '='  , $user)->delete();
+      $email = JWTAuth::parseToken()->toUser()->value('email');
+      $resume= Resume::where('data.resume.info.email', '='  , $email)->delete();
     }
 
 
-    public function update(Request $request){
+    public function update(Request $request){                    //Update method
 
       if(!$user = JWTAuth::parseToken()->authenticate()){
         return response()->json(['message' => 'User not Found'] , 404);
       }
 
-        $user = JWTAuth::parseToken()->toUser()->value('email');
-         Resume::where('data.resume.info.email', '='  , $user)->update($request->all());
+        $email = JWTAuth::parseToken()->toUser()->value('email');
+         Resume::where('data.resume.info.email', '='  , $email)->update($request->all());
          return "sucess!";
 
 
