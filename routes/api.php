@@ -11,6 +11,9 @@ Route::patch('/update','ResumeController@update');
 Route::get('/templates','TemplateController@setUp');
 Route::get('/userTemplates','ResumeController@userTemplates');
 
+//pdf Downlaod
+Route::get('/pdf','AllController@pdfDownload');
+
 Route::post('/update', [
   'uses' => 'ResumeController@update',
   'middleware' => 'jwt.auth'
