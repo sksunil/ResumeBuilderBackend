@@ -28,7 +28,7 @@ class ChangePassword extends Controller
       $email=$credentials['email'];
       $password = bcrypt($credentials['password']);
       User::where('email', '=' , $email)->update(array('password' => $password));
-      return "Password Change sucessFully!";    //return login page 
+      return "Password Change sucessFully!";    //return login page
 
     }
 

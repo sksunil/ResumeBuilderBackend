@@ -78,33 +78,30 @@ class ResumeController extends Controller
     }
 
 
-<<<<<<< HEAD
+
     public function index(){                                      //Display method
     $resume =  Resume::all();
     $email = JWTAuth::parseToken()->toUser()->value('email');
     $resume= Resume::where('data.resume.info.email', '='  , $email)->get();
-=======
+
     public function index(){
     //$resume =  Resume::all();
     $user = JWTAuth::parseToken()->toUser()->value('email');
     $resume= Resume::where('data.resume.info.email', '='  , $user)->project(['_id' => 0])->get();
     return $resume;
->>>>>>> cd2ec7f422bc6d654ca8b72f856db2eef6e11987
 
     }
 
     public function destory()                                   //Delete method
     {
-<<<<<<< HEAD
+
       $resume =  Resume::all();
       $email = JWTAuth::parseToken()->toUser()->value('email');
       $resume= Resume::where('data.resume.info.email', '='  , $email)->delete();
-=======
-      //$resume =  Resume::all();
       $user = JWTAuth::parseToken()->toUser()->value('email');
       $resume= Resume::where('data.resume.info.email', '='  , $user)->delete();
 
->>>>>>> cd2ec7f422bc6d654ca8b72f856db2eef6e11987
+
     }
 
 
@@ -114,16 +111,12 @@ class ResumeController extends Controller
         return response()->json(['message' => 'User not Found'] , 404);
       }
 
-<<<<<<< HEAD
-        $email = JWTAuth::parseToken()->toUser()->value('email');
+
+      $email = JWTAuth::parseToken()->toUser()->value('email');
          Resume::where('data.resume.info.email', '='  , $email)->update($request->all());
          return "sucess!";
-=======
         $user = JWTAuth::parseToken()->toUser()->value('email');
          Resume::where('data.resume.info.email', '='  , $user)->update($request->all());
-
-
->>>>>>> cd2ec7f422bc6d654ca8b72f856db2eef6e11987
 
 
     }

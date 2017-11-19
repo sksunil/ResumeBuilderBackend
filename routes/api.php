@@ -21,6 +21,12 @@ Route::post('/changePassword', [
   'middleware' => 'jwt.auth'
 ]);
 
+// Route::post('/resetEmail', [
+//   'uses' => 'PasswordController@setLinkEmail',
+//   'middleware' => 'jwt.auth'
+// ]);
+//Route::any('/password/resetEmail','PasswordController@setLinkEmail');
+
 Route::get('/userProfile', [
   'uses' => 'UserController@userProfile',
   'middleware' => 'jwt.auth'
