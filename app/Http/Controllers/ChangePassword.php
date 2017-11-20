@@ -9,6 +9,7 @@ use JWTAuth;
 use App\Http\Controllers\ChangePassword;
 use App\User;
 use Illuminate\Auth\Passwords\CanResetPassword;
+use Mail;
 use JWTAuthException;
 
 class ChangePassword extends Controller
@@ -33,15 +34,23 @@ class ChangePassword extends Controller
     }
 
 
-// public function sendMail()
-// {
-// $to = 'harshadakhani8882@gmail.com';
-// $subject = 'My subject';
-// $txt = 'Hello world!';
-// $headers = 'From: sksunilkumawat1995@gmail.com';
-// $d=mail($to,$subject,$txt,$headers);
-// dd($d);
-// }
+    public function otp(){
 
+            $random_number = intval( "0" . rand(1,9) . rand(0,9) . rand(0,9) . rand(0,9) . rand(0,9) . rand(0,9) ); //
+            echo $random_number;
+
+        }
+
+        public function sendMail()
+        {
+
+            Mail::send(['text'=>'MailDetails'],['name','SAndy'],function($message)
+              {
+                     $message->to('sksunilkumawat1995@gmail.com','hello hown you')->subject('test mail');
+                      $message->from('sksunilkumawat1995@gmail.com','SAndy');
+              }
+          );
+
+       }
 
 	}

@@ -51,12 +51,12 @@ class UserController extends Controller
             return response()->json(['failed_to_create_token'], 500);
         }
 
-      //  return view('layouts.app');
+       return view('layouts.app');
         //return response()->json(compact('token','email'));
 
-        return response()->json([
-                 'token' => $token
-        ], 200);
+        // return response()->json([
+        //          'token' => $token
+        // ], 200);
     }
     public function getAuthUser(Request $request){
         $user = JWTAuth::toUser($request->token);

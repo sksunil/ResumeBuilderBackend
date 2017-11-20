@@ -14,6 +14,10 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/p', function () {
+    return view('pdfFile');
+});
+//Route::get('/pdf','AllController@pdfDownload');
 // Route::get('/pdf', function () {
 //     $pdf = PDF::loadView('pdfFile');
 //     return $pdf->download('Dance.pdf');

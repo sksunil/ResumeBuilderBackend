@@ -9,7 +9,7 @@ Route::post('/insert', 'ResumeController@store');
 Route::delete('/delete', 'ResumeController@destory');
 Route::patch('/update','ResumeController@update');
 Route::get('/templates','TemplateController@setUp');
-Route::get('/userTemplates','ResumeController@userTemplates');
+Route::get('/userTemplates','Resum eController@userTemplates');
 
 //pdf Downlaod
 Route::get('/pdf','AllController@pdfDownload');
@@ -24,11 +24,7 @@ Route::post('/changePassword', [
   'middleware' => 'jwt.auth'
 ]);
 
-// Route::post('/resetEmail', [
-//   'uses' => 'PasswordController@setLinkEmail',
-//   'middleware' => 'jwt.auth'
-// ]);
-//Route::any('/password/resetEmail','PasswordController@setLinkEmail');
+Route::get('/resetEmail','ChangePassword@sendMail');
 
 Route::get('/userProfile', [
   'uses' => 'UserController@userProfile',

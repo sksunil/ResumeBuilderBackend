@@ -17,7 +17,6 @@ use JWTAuth;
 
 use Illuminate\Support\Facades\DB;
 
-
 class ResumeController extends Controller
 {
 
@@ -26,7 +25,7 @@ class ResumeController extends Controller
 
 
     public function store(Request $request){                   //insert method
-      if(! $user = JWTAuth::parseToken()->authenticate()){
+      if($user = JWTAuth::parseToken()->authenticate()){
         return response()->json(['message' => 'User not Found'] , 404);
       }
 
@@ -77,14 +76,7 @@ class ResumeController extends Controller
         //return view('welcome');
     }
 
-
-
-    public function index(){                                      //Display method
-    $resume =  Resume::all();
-    $email = JWTAuth::parseToken()->toUser()->value('email');
-    $resume= Resume::where('data.resume.info.email', '='  , $email)->get();
-
-    public function index(){
+    public function index(){     //Display Method
     //$resume =  Resume::all();
     $user = JWTAuth::parseToken()->toUser()->value('email');
     $resume= Resume::where('data.resume.info.email', '='  , $user)->project(['_id' => 0])->get();
