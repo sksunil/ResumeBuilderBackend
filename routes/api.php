@@ -34,11 +34,8 @@ Route::get('/userTemplates', [
   'middleware' => 'jwt.auth'
 ]); // get templates of user
 
-
-
-
-Route::post('/forgotPassword', [
-  'uses' => 'ForgotPassword@postReset',
+Route::post('/changePassword', [
+  'uses' => 'ChangePassword@postReset',
   'middleware' => 'jwt.auth'
 ]);
 
