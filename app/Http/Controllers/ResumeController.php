@@ -93,7 +93,7 @@ class ResumeController extends Controller
       $resume= Resume::where('data.resume.info.email', '='  , $email)->delete();
       $user = JWTAuth::parseToken()->toUser()->value('email');
       $resume= Resume::where('data.resume.info.email', '='  , $user)->delete();
-
+      return "success";
 
     }
 
@@ -110,7 +110,7 @@ class ResumeController extends Controller
          return "sucess!";
         $user = JWTAuth::parseToken()->toUser()->value('email');
          Resume::where('data.resume.info.email', '='  , $user)->update($request->all());
-
+         return "success";
 
     }
 
