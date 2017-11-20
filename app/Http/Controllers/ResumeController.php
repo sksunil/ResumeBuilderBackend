@@ -25,7 +25,7 @@ class ResumeController extends Controller
     protected $fillable = ['name','email','address','dob'];
 
 
-    public function store(Request $request){
+    public function store(Request $request){                   //insert method
       if(! $user = JWTAuth::parseToken()->authenticate()){
         return response()->json(['message' => 'User not Found'] , 404);
       }
@@ -78,7 +78,8 @@ class ResumeController extends Controller
     }
 
 
-    public function index(){
+
+    public function index(){                                  //display method
     //$resume =  Resume::all();
     $user = JWTAuth::parseToken()->toUser()->value('email');
     $resume= Resume::where('data.resume.info.email', '='  , $user)->project(['_id' => 0])->get();
@@ -86,30 +87,37 @@ class ResumeController extends Controller
 
     }
 
-    public function destory()
+    public function destory()                                   //Delete method
     {
-      //$resume =  Resume::all();
+
+      $resume =  Resume::all();
+      $email = JWTAuth::parseToken()->toUser()->value('email');
+      $resume= Resume::where('data.resume.info.email', '='  , $email)->delete();
       $user = JWTAuth::parseToken()->toUser()->value('email');
       $resume= Resume::where('data.resume.info.email', '='  , $user)->delete();
+
 
     }
 
 
-    public function update(Request $request){
+    public function update(Request $request){                    //Update method
 
       if(!$user = JWTAuth::parseToken()->authenticate()){
         return response()->json(['message' => 'User not Found'] , 404);
       }
 
+
+      $email = JWTAuth::parseToken()->toUser()->value('email');
+         Resume::where('data.resume.info.email', '='  , $email)->update($request->all());
+         return "sucess!";
         $user = JWTAuth::parseToken()->toUser()->value('email');
          Resume::where('data.resume.info.email', '='  , $user)->update($request->all());
-
-
 
 
     }
 
     public function userTemplates(){
+
       if(!$user = JWTAuth::parseToken()->authenticate()){
         return response()->json(['message' => 'User not Found'] , 404);
       }

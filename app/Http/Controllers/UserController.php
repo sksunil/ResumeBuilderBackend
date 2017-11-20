@@ -62,4 +62,16 @@ class UserController extends Controller
         $user = JWTAuth::toUser($request->token);
         return response()->json(['result' => $user]);
     }
+
+    public function userProfile()
+    {
+
+      $email = JWTAuth::parseToken()->toUser()->value('email');
+      $Alldetails = User::where('email', '='  , $email)->get();
+      $userName = $Alldetails['0']['attributes']['name'];
+      $userEmail = $Alldetails['0']['attributes']['email'];
+      $userDetails=['name'=>$userName,'email'=>$userEmail];
+
+      return $userDetails;    // return user name and email id
+    }
 }

@@ -4,23 +4,54 @@ use Illuminate\Http\Request;
 
 
 
-Route::get('/display','ResumeController@index');
-Route::post('/insert', 'ResumeController@store');
-Route::delete('/delete', 'ResumeController@destory');
-Route::patch('/update','ResumeController@update');
-Route::get('/templates','TemplateController@setUp');
-Route::get('/userTemplates','ResumeController@userTemplates');
+Route::get('/display', [
+  'uses' => 'ResumeController@index',
+  'middleware' => 'jwt.auth'
+]); // get all user data
 
-Route::post('/update', [
+Route::post('/insert', [
+  'uses' => 'ResumeController@store',
+  'middleware' => 'jwt.auth'
+]); // store the data
+
+Route::delete('/delete', [
+  'uses' => 'ResumeController@destory',
+  'middleware' => 'jwt.auth'
+]); //delete the user data
+
+Route::patch('/update', [
   'uses' => 'ResumeController@update',
   'middleware' => 'jwt.auth'
+]);// update the user data
+
+Route::get('/templates', [
+  'uses' => 'TemplateController@setUp',
+  'middleware' => 'jwt.auth'
 ]);
+
+Route::get('/userTemplates', [
+  'uses' => 'ResumeController@userTemplates',
+  'middleware' => 'jwt.auth'
+]); // get templates of user
+
+
+
 
 Route::post('/forgotPassword', [
   'uses' => 'ForgotPassword@postReset',
   'middleware' => 'jwt.auth'
 ]);
 
+// Route::post('/resetEmail', [
+//   'uses' => 'PasswordController@setLinkEmail',
+//   'middleware' => 'jwt.auth'
+// ]);
+//Route::any('/password/resetEmail','PasswordController@setLinkEmail');
+
+Route::get('/userProfile', [
+  'uses' => 'UserController@userProfile',
+  'middleware' => 'jwt.auth'
+]);
 // Route::post('auth/register', 'UserController@register');
 // Route::post('auth/login', 'UserController@login');
 

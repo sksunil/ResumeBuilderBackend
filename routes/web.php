@@ -14,10 +14,17 @@
 Route::get('/', function () {
     return view('welcome');
 });
+// Route::get('/pdf', function () {
+//     $pdf = PDF::loadView('pdfFile');
+//     return $pdf->download('Dance.pdf');
+// });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+//Route::get('/email', 'ForgotPassword@sendMail');
 
 Route::post('register', 'UserController@register');
 Route::post('login', 'UserController@login');
