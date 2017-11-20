@@ -3,15 +3,6 @@
 use Illuminate\Http\Request;
 
 
-
-<<<<<<< HEAD
-Route::get('/display','ResumeController@index');
-Route::post('/insert', 'ResumeController@store');
-Route::delete('/delete', 'ResumeController@destory');
-Route::patch('/update','ResumeController@update');
-Route::get('/templates','TemplateController@setUp');
-Route::get('/userTemplates','Resum eController@userTemplates');
-=======
 Route::get('/display', [
   'uses' => 'ResumeController@index',
   'middleware' => 'jwt.auth'
@@ -21,7 +12,6 @@ Route::post('/insert', [
   'uses' => 'ResumeController@store',
   'middleware' => 'jwt.auth'
 ]); // store the data
->>>>>>> 4f43a429674e073c3f9726a68157046150a07c41
 
 Route::delete('/delete', [
   'uses' => 'ResumeController@destory',
