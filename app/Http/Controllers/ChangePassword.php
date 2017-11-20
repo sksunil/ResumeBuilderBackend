@@ -34,7 +34,7 @@ class ChangePassword extends Controller
     }
 
 
-    public function otp(){
+    public static function otp(){
 
             $random_number = intval( "0" . rand(1,9) . rand(0,9) . rand(0,9) . rand(0,9) . rand(0,9) . rand(0,9) ); //
             echo $random_number;
@@ -46,8 +46,8 @@ class ChangePassword extends Controller
 
             Mail::send(['text'=>'MailDetails'],['name','SAndy'],function($message)
               {
-                     $message->to('sksunilkumawat1995@gmail.com','hello hown you')->subject('test mail');
-                      $message->from('sksunilkumawat1995@gmail.com','SAndy');
+                     $message->to('user@gmail.com','user')->subject('Password Reset mail');
+                      $message->from('cvmaker3911@gmail.com','SAndy');
               }
           );
 
