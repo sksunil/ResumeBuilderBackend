@@ -27,7 +27,8 @@ class UserController extends Controller
           'email' => $request->get('email'),
           'password' => bcrypt($request->get('password'))
         ]);
-          
+
+        
           return "registration successful";
     //  return response()->json(['status'=>true,'message'=>'User created successfully','data'=>$user]);
     }

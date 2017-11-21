@@ -12,6 +12,8 @@ use App\Internship;
 use App\Award;
 use App\Hobby;
 use App\Template;
+use App\DA;
+use App\Skills;
 use JWTAuth;
 
 
@@ -25,53 +27,47 @@ class ResumeController extends Controller
 
 
     public function store(Request $request){                   //insert method
-      if($user = JWTAuth::parseToken()->authenticate()){
-        return response()->json(['message' => 'User not Found'] , 404);
-      }
-
-        $data = $request->only('_id','data');
-        $resume = $data['data']['resume'];
-         $user_id = $data['_id'];
 
 
+        $user = JWTAuth::parseToken()->toUser();
 
 
-         $name = $resume['info']['name'];
-         $email = $resume['info']['email'];
-         $address = $resume['info']['address'];
-         $dob = $resume['info']['dob'];
+         $resume = new Resume;
+         $resume->{'data.resume.info.name'} = $user->name;
+         $resume->{'data.resume.info.email'} = $user->email;
+         $resume->{'data.resume.info.dob'} = '21-Jan-1990';
+         $resume->{'data.resume.info.address'} = '221 B Street,England,UK';
+         $resume->{'data.resume.info.profession'} = 'Web Developer';
+         $resume->{'data.resume.info.phone'} = '9823571245';
 
 
+         //$templates = $data['data']['template'];
+         //$resume->{'data.template'} = $this->getTemplates($templates);
+        //
+        // $degrees = $resume['degree'];
+         $resume->{'data.resume.degree'} = $this->getDegrees();
+        //
+        // $internships = $resume['internship'];
+          $resume->{'data.resume.internship'} = $this->getInternship();
+        //
+        // $projects = $resume['project'];
+          $resume->{'data.resume.projects'} = $this->getProjects();
+        //
+        // $positions = $resume['position'];
+          $resume->{'data.resume.position'} = $this->getPositions();
+        //
+        //
+        // $awards = $resume['award'];
+           $resume->{'data.resume.award'} = $this->getAwards();
+        //
+        // $hobbies = $resume['hobby'];
+          $resume->{'data.resume.hobby'} = $this->getHobby();
 
-         $user = new Resume;
-         $user->{'data.resume.info.name'} = $name;
-         $user->{'data.resume.info.email'} = $email;
-         $user->{'data.resume.info.address'} = $address;
-         $user->{'data.resume.info.dob'} = $dob;
+          $resume->{'data.resume.da'} = $this->getDAdetails();
 
-         $templates = $data['data']['template'];
-         $user->{'data.template'} = $this->getTemplates($templates);
-
-        $degrees = $resume['degree'];
-        $user->{'data.resume.degree'} = $this->getDegrees($degrees);
-
-        $internships = $resume['internship'];
-        $user->{'data.resume.internship'} = $this->getInternship($internships);
-
-        $projects = $resume['project'];
-        $user->{'data.resume.projects'} = $this->getProjects($projects);
-
-        $positions = $resume['position'];
-        $user->{'data.resume.position'} = $this->getPositions($positions);
-
-
-        $awards = $resume['award'];
-        $user->{'data.resume.award'} = $this->getAwards($awards);
-
-        $hobbies = $resume['hobby'];
-        $user->{'data.resume.hobby'} = $this->getHobby($hobbies);
-
-        $user->save();
+          $resume->{'data.resume.skills'} = $this->getSkills();
+        $resume->save();
+        return "success";
 
         //return view('welcome');
     }
@@ -94,9 +90,10 @@ class ResumeController extends Controller
     $user = JWTAuth::parseToken()->toUser();
     $email = $user->email;
 
-    $resume= Resume::where('data.resume.info.email', '='  , $email)->project(['_id' => 0])->get();
+    $resume = Resume::where('data.resume.info.email', '='  , $email)->project(['_id' => 0])->get();
     $data = json_decode($resume, true);
 
+    dd($data);
 
     if(empty($data)){
       return 'user not found';
@@ -121,13 +118,8 @@ class ResumeController extends Controller
         }
       $user = JWTAuth::parseToken()->toUser();
       $email = $user->email;
-      $resume= Resume::where('data.resume.info.email', '='  , $email)->delete();
-      $data = json_decode($resume, true);
+      Resume::where('data.resume.info.email', '='  , $email)->delete();
 
-
-      if(empty($data)){
-        return 'user data not found';
-      }
       return "User removed";
 
     }
@@ -152,12 +144,7 @@ class ResumeController extends Controller
 
 
       Resume::where('data.resume.info.email', '='  , $email)->update($request->all());
-      $data = json_decode($resume, true);
 
-
-      if(empty($data)){
-        return 'user data not found';
-      }
          return "update successful";
 
 
@@ -192,114 +179,131 @@ class ResumeController extends Controller
 
     }
 
-    protected function getTemplates($templates){
-      $userTemplates = [];
-      if (count($templates) > 0) {
-          foreach ($templates as $template) {
-              $userTemplates[] = new Template(
-                  $template['id'],
-                  $template['name']
-
-              );
-          }
-    }
-    return $userTemplates;
-
-
-    }
-    protected function getProjects($projects)
+    // protected function getTemplates($templates){
+    //   $userTemplates = [];
+    //   if (count($templates) > 0) {
+    //       foreach ($templates as $template) {
+    //           $userTemplates[] = new Template(
+    //               $template['id'],
+    //               $template['name']
+    //
+    //           );
+    //       }
+    // }
+    // return $userTemplates;
+    //
+    //
+    // }
+    protected function getProjects()
     {
           $userProjects = [];
-          if (count($projects) > 0) {
-              foreach ($projects as $project) {
                   $userProjects[] = new Project(
-                      $project['name'],
-                      $project['description'],
-                      $project['start'],
-                      $project['end'],
-                      $project['team_size'],
-                      $project['guide']
+                   "Course Feedback System",
+                   "A portal that enables students to provide truly anonymous and genuine course feedback to the university authorities; built using Laravel, AngularJS and MySQL.",
+                   "1/7/2017",
+                   "1/9/2017",
+                   "8",
+                   "John Wick"
                   );
-              }
-        }
-        return $userProjects;
-    }
+                    return $userProjects;
+      }
 
-    protected function getInternship($internships)
+
+
+
+    protected function getInternship()
     {
           $userInternship = [];
-          if (count($internships) > 0) {
-              foreach ($internships as $internship) {
-                  $userInternship[] = new Internship(
-                      $internship['name'],
-                      $internship['description'],
-                      $internship['start'],
-                      $internship['end'],
-                      $internship['team_size'],
-                      $internship['guide']
+          // if (count($internships) > 0) {
+          //     foreach ($internships as $internship) {
+                   $userInternship[] = new Internship(
+                      "ABC company",
+                      "Handled database and Web site programming tasks (primarily using Java, C++, HTML and SharePoint).",
+                      "1/7/2017",
+                      "1/9/2017",
+                      "1",
+                      "John Wick"
                   );
-              }
-        }
-        return $userInternship;
+                  return $userInternship;
     }
 
-    protected function getDegrees($degrees)
+
+
+
+    protected function getDegrees()
     {
-        $userDegrees = [];
-
-        if(count($degrees) > 0){
-          foreach($degrees as $degree){
+         $userDegrees = [];
+        //
+        // if(count($degrees) > 0){
+        //   foreach($degrees as $degree){
               $userDegrees[] = new Degree(
-                  $degree['name'],
-                  $degree['institute'],
-                  $degree['start_year'],
-                  $degree['end_year'],
-                  $degree['score']
+                  'Msc IT',
+                  'DAIICT',
+                  '2018',
+                  '7.19'
               );
+              return $userDegrees;
           }
-        }
-        return $userDegrees;
-    }
 
-    protected function getPositions($positions)
+
+
+
+    protected function getPositions()
     {
           $userPositions = [];
 
-          if(count($positions) > 0){
-            foreach($positions as $position){
               $userPositions[] = new Position(
-                $position['name']
+                 "Leader and organizer at freeCodeCamp, Ahmedabad"
               );
-            }
-          }
+
+
           return $userPositions;
     }
 
-    protected function getAwards($awards)
+    protected function getAwards()
     {
           $userAwards = [];
 
-          if(count($awards) > 0){
-            foreach($awards as $award){
+
               $userAwards[] = new Award(
-                $award['name']
+                "Open-source contributions to many popular libraries like: yarn (2/2 PRs), yarn-docs (4/7 PRs), react-mdc (3/3 PRs), pugjs (1/1 PR) and more."
+
               );
-            }
-          }
+
+
           return $userAwards;
     }
 
-    protected function getHobby($hobbies)
+    protected function getHobby()
     {
           $userhobbies = [];
 
-          if(count($hobbies) > 0){
-            foreach($hobbies as $hobby){
+
               $userhobbies[] = new Hobby(
-                $hobby['name']
+                  "Keeping up with open source communities and libraries."
               );
-            }
-          }
+
           return $userhobbies;
+    }
+
+    protected function getDAdetails(){
+
+
+        $userdetails = new DA(
+            "Full Stack Web Development",
+             "Javascript, Java, PHP",
+              "JQuery, VueJS, Postman, Git, Bulma, Firebase, MongoDB, MYSQL",
+              "Cloud computing, Human Computer Interaction"
+        );
+        return $userdetails;
+    }
+
+    protected function getSkills(){
+        $userSkills = [];
+
+        $userSkills[] = new Skills(
+            'UX & UI Design'
+        );
+        return $userSkills;
     }
 }
