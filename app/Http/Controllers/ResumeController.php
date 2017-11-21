@@ -79,20 +79,55 @@ class ResumeController extends Controller
 
     public function index(){                                  //display method
     //$resume =  Resume::all();
-    $user = JWTAuth::parseToken()->toUser()->value('email');
-    $resume= Resume::where('data.resume.info.email', '='  , $user)->project(['_id' => 0])->get();
+    try {
+
+          if (! $user = JWTAuth::parseToken()->authenticate()) {
+                 return response()->json(['user_not_found'], 404);
+          }
+    } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+        return response()->json(['token_expired'], $e->getStatusCode());
+    } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+        return response()->json(['token_invalid'], $e->getStatusCode());
+    } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
+        return response()->json(['token_absent'], $e->getStatusCode());
+      }
+    $user = JWTAuth::parseToken()->toUser();
+    $email = $user->email;
+
+    $resume= Resume::where('data.resume.info.email', '='  , $email)->project(['_id' => 0])->get();
+    $data = json_decode($resume, true);
+
+
+    if(empty($data)){
+      return 'user not found';
+    }
     return $resume;
 
     }
 
     public function destory()                                   //Delete method
     {
+      try {
 
-      $resume =  Resume::all();
-      $email = JWTAuth::parseToken()->toUser()->value('email');
+            if (! $user = JWTAuth::parseToken()->authenticate()) {
+                   return response()->json(['user_not_found'], 404);
+            }
+      } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+          return response()->json(['token_expired'], $e->getStatusCode());
+      } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+          return response()->json(['token_invalid'], $e->getStatusCode());
+      } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
+          return response()->json(['token_absent'], $e->getStatusCode());
+        }
+      $user = JWTAuth::parseToken()->toUser();
+      $email = $user->email;
       $resume= Resume::where('data.resume.info.email', '='  , $email)->delete();
-      $user = JWTAuth::parseToken()->toUser()->value('email');
-      $resume= Resume::where('data.resume.info.email', '='  , $user)->delete();
+      $data = json_decode($resume, true);
+
+
+      if(empty($data)){
+        return 'user not found';
+      }
       return "success";
 
     }
@@ -100,29 +135,60 @@ class ResumeController extends Controller
 
     public function update(Request $request){                    //Update method
 
-      if(!$user = JWTAuth::parseToken()->authenticate()){
-        return response()->json(['message' => 'User not Found'] , 404);
+      try {
+
+            if (! $user = JWTAuth::parseToken()->authenticate()) {
+                   return response()->json(['user_not_found'], 404);
+            }
+      } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+          return response()->json(['token_expired'], $e->getStatusCode());
+      } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+          return response()->json(['token_invalid'], $e->getStatusCode());
+      } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
+          return response()->json(['token_absent'], $e->getStatusCode());
+        }
+      $user = JWTAuth::parseToken()->toUser();
+      $email = $user->email;
+
+
+      Resume::where('data.resume.info.email', '='  , $email)->update($request->all());
+      $data = json_decode($resume, true);
+
+
+      if(empty($data)){
+        return 'user not found';
       }
+         return "update successful";
 
-
-      $email = JWTAuth::parseToken()->toUser()->value('email');
-         Resume::where('data.resume.info.email', '='  , $email)->update($request->all());
-         return "sucess!";
-        $user = JWTAuth::parseToken()->toUser()->value('email');
-         Resume::where('data.resume.info.email', '='  , $user)->update($request->all());
-         return "success";
 
     }
 
     public function userTemplates(){
 
-      if(!$user = JWTAuth::parseToken()->authenticate()){
-        return response()->json(['message' => 'User not Found'] , 404);
+      try {
+
+            if (! $user = JWTAuth::parseToken()->authenticate()) {
+                   return response()->json(['user_not_found'], 404);
+            }
+      } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+          return response()->json(['token_expired'], $e->getStatusCode());
+      } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+          return response()->json(['token_invalid'], $e->getStatusCode());
+      } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
+          return response()->json(['token_absent'], $e->getStatusCode());
       }
-      $user = JWTAuth::parseToken()->toUser()->value('email');
-      $resume = Resume::where('data.resume.info.email', '='  , $user)->project(['_id' => 0])->get();
-      $template = $resume['0']['data']['template'];
-      return $template;
+      $user = JWTAuth::parseToken()->toUser();
+      $email = $user->email;
+      $resume = Resume::where('data.resume.info.email', '='  , $email)->project(['_id' => 0])->get();
+      $data = json_decode($resume, true);
+
+
+      if(empty($data)){
+        return 'user not found';
+      }
+      $template = $resume['0']['data'];
+
+      return empty($template['template']) ? 'No templates' : $template;
 
     }
 
