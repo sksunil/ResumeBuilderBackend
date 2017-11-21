@@ -126,9 +126,9 @@ class ResumeController extends Controller
 
 
       if(empty($data)){
-        return 'user not found';
+        return 'user data not found';
       }
-      return "success";
+      return "User removed";
 
     }
 
@@ -156,7 +156,7 @@ class ResumeController extends Controller
 
 
       if(empty($data)){
-        return 'user not found';
+        return 'user data not found';
       }
          return "update successful";
 
@@ -184,11 +184,11 @@ class ResumeController extends Controller
 
 
       if(empty($data)){
-        return 'user not found';
+        return 'user data not found';
       }
       $template = $resume['0']['data'];
 
-      return empty($template['template']) ? 'No templates' : $template;
+      return empty($template['template']) ? 'No templates' : $template['template'];
 
     }
 
