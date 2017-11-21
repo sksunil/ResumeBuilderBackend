@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use Validator;
 use App\Http\Controllers\Controller;
 use JWTAuth;
 use App\User;
 use JWTAuthException;
+use Redirect;
+use ValidatesRequests;
 
 class UserController extends Controller
 {
@@ -16,11 +19,25 @@ class UserController extends Controller
     }
 
     public function register(Request $request){
-       $this->validate($request,[
+
+       $validator = Validator::make($request->all(),[
          'name' =>'required|string|max:255',
          'email' =>'required|string|email|max:255|unique:users',
          'password' =>'required|string|min:6|confirmed',
        ]);
+       if ($validator->fails()) {
+          //  return redirect()->back()->with('Invalid credentials...');
+            return 'Invalid credentials...';
+       }
+       else {
+         $user = $this->User->create([
+           'name' => $request->get('name'),
+           'email' => $request->get('email'),
+           'password' => bcrypt($request->get('password'))
+         ]);
+
+           return "registration done...";
+       }
 
         $user = $this->User->create([
           'name' => $request->get('name'),
@@ -46,10 +63,10 @@ class UserController extends Controller
 
         try {
            if (!$token = JWTAuth::attempt($credentials)) {
-            return response()->json(['invalid_email_or_password'], 422);
+            return response()->json(['Invalid email or password'], 422);
            }
         } catch (JWTAuthException $e) {
-            return response()->json(['failed_to_create_token'], 500);
+            return response()->json(['ailed to create token'], 500);
         }
 
        //return view('layouts.app');

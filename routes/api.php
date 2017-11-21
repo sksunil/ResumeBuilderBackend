@@ -12,23 +12,24 @@ Route::patch('/update','ResumeController@update')->middleware('jwt');   // updat
 Route::get('/templates','TemplateController@setUp')->middleware('jwt'); //Get all templates
 Route::get('/userTemplates','ResumeController@userTemplates')->middleware('jwt'); // get templates of user
 
-
+//sk
 Route::post('/changePassword', [
   'uses' => 'ChangePassword@postReset',
   'middleware' => 'jwt'
 ]);
 
-Route::get('/resetEmail','ChangePassword@sendMail');
+Route::get('/resetEmail','ChangePassword@sendMail');  //sk
+Route::post('/sendOtp','ChangePassword@isExist');     //sk
 
-Route::get('/userProfile', [
+Route::get('/userProfile', [                           //sk
   'uses' => 'UserController@userProfile',
   'middleware' => 'jwt'
 ]);
 
-Route::post('/register',[
+Route::post('/register',[                          //sk
   'uses' => 'UserController@register'
 ]);
-Route::post('/login',[
+Route::post('/login',[                              //sk
   'uses' => 'UserController@login'
 
 ]);

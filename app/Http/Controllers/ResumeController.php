@@ -28,7 +28,6 @@ class ResumeController extends Controller
 
     public function store(Request $request){                   //insert method
 
-
         $user = JWTAuth::parseToken()->toUser();
 
 
