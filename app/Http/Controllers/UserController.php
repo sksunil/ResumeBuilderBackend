@@ -75,13 +75,27 @@ class UserController extends Controller
 
     public function userProfile()
     {
+      try {
 
-      $email = JWTAuth::parseToken()->toUser()->value('email');
-      $Alldetails = User::where('email', '='  , $email)->get();
-      $userName = $Alldetails['0']['attributes']['name'];
-      $userEmail = $Alldetails['0']['attributes']['email'];
-      $userDetails=['name'=>$userName,'email'=>$userEmail];
+		        if (! $user = JWTAuth::parseToken()->authenticate()) {
+			             return response()->json(['user_not_found'], 404);
+		        }
+      } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+          return response()->json(['token_expired'], $e->getStatusCode());
+      } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+          return response()->json(['token_invalid'], $e->getStatusCode());
+      } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
+          return response()->json(['token_absent'], $e->getStatusCode());
+        }
 
-      return $userDetails;    // return user name and email id
+	// the token is valid and we have found the user via the sub claim
+	return response()->json(compact('user'));
+      // $email = JWTAuth::parseToken()->toUser()->value('email');
+      // $Alldetails = User::where('email', '='  , $email)->get();
+      // $userName = $Alldetails['0']['attributes']['name'];
+      // $userEmail = $Alldetails['0']['attributes']['email'];
+      // $userDetails=['name'=>$userName,'email'=>$userEmail];
+      //
+      // return $userDetails;    // return user name and email id
     }
 }
