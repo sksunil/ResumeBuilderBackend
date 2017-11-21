@@ -92,7 +92,7 @@ class ResumeController extends Controller
     $resume = Resume::where('data.resume.info.email', '='  , $email)->project(['_id' => 0])->get();
     $data = json_decode($resume, true);
 
-    dd($data);
+
 
     if(empty($data)){
       return 'user not found';
