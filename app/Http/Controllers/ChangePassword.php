@@ -14,6 +14,10 @@ use JWTAuthException;
 
 class ChangePassword extends Controller
 {
+
+
+  private static $random_number,$user;
+
   public function postReset(Request $request)
 	{
 		$this->validate($request, [
@@ -36,38 +40,37 @@ class ChangePassword extends Controller
 
     public static function otp(){
 
-            $random_number = intval( "0" . rand(1,9) . rand(0,9) . rand(0,9) . rand(0,9) . rand(0,9) . rand(0,9) ); //
-            echo $random_number;
+          return ChangePassword::$random_number = intval( "0" . rand(1,9) . rand(0,9) . rand(0,9) . rand(0,9) . rand(0,9) . rand(0,9) ); //
+
 
         }
-
-        public function sendMail()
+  //    public $mail;
+        public function sendMail(String $email)
         {
-
-            Mail::send(['text'=>'MailDetails'],['name','SAndy'],function($message)
+          ChangePassword::$user = new User;
+          ChangePassword::$user->email=$email;
+            Mail::send(['text'=>'MailDetails'],['name','CVMaker'],function($message)
               {
-                     $message->to('user@gmail.com','user')->subject('Password Reset mail');
-                      $message->from('cvmaker3911@gmail.com','SAndy');
+
+                     $message->to(ChangePassword::$user['attributes']['email'],'User')->subject('Password Reset mail');
+                      $message->from('cvmaker3911@gmail.com','CVMakerTeam');
               }
           );
 
        }
 
-
-
- public function isExist(Request $request){                          //IsExist method
-      $data=$request->only('email');
-      $email=$data['email'];
-      $re = User::where('email', '='  , $email)->get();
-       if(User::where('email', '='  , $email))
+     public function isExist(Request $request){                          //IsExist method
+       $email=$request->get('email');
+       $Exist = User::where('email', '='  , $email)->get();
+       $arr = json_decode($Exist,true);
+      if(empty($arr))
        {
-           return "hello";
+         return "Please Enter Valid Invalid Email Id.";
+        }
+       else {
+             ChangePassword::sendmail($email);
+             dd(ChangePassword::$random_number);            //otp for chacking
        }
-       else
-         {
-           return "invalid user";
-         }
 
  }
-
-	}
+}
