@@ -39,6 +39,14 @@ class UserController extends Controller
            return "registration done...";
        }
 
+        $user = $this->User->create([
+          'name' => $request->get('name'),
+          'email' => $request->get('email'),
+          'password' => bcrypt($request->get('password'))
+        ]);
+
+        
+          return "registration successful";
     //  return response()->json(['status'=>true,'message'=>'User created successfully','data'=>$user]);
     }
 
