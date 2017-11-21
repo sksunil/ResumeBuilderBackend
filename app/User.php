@@ -10,7 +10,7 @@ use Illuminate\Auth\Authenticatable as AuthenticableTrait;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use App\Notifications\ResetPassword as ResetPasswordNotification;
 
-class User extends Eloquent  implements Authenticatable,CanResetPasswordContract
+class User extends Eloquent  implements Authenticatable,CanResetPasswordContract  
 {
     use Notifiable;
     use AuthenticableTrait;
@@ -35,7 +35,7 @@ class User extends Eloquent  implements Authenticatable,CanResetPasswordContract
     protected $hidden = [
         'password', 'remember_token',
     ];
-   // 
+   //
    //  public function sendPasswordResetNotification($token)
    // {
    //     $this->notify(new ResetPasswordNotification($token));

@@ -53,4 +53,21 @@ class ChangePassword extends Controller
 
        }
 
+
+
+ public function isExist(Request $request){                          //IsExist method
+      $data=$request->only('email');
+      $email=$data['email'];
+      $re = User::where('email', '='  , $email)->get();
+       if(User::where('email', '='  , $email))
+       {
+           return "hello";
+       }
+       else
+         {
+           return "invalid user";
+         }
+
+ }
+
 	}

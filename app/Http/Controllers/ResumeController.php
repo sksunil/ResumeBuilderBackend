@@ -70,7 +70,6 @@ class ResumeController extends Controller
 
         $hobbies = $resume['hobby'];
         $user->{'data.resume.hobby'} = $this->getHobby($hobbies);
-
         $user->save();
 
         //return view('welcome');

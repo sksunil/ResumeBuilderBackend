@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use app\Http\Controllers\ResumeController;
 
 class ExampleTest extends TestCase
 {
@@ -13,8 +14,10 @@ class ExampleTest extends TestCase
      *
      * @return void
      */
-    public function testBasicTest()
-    {
-        $this->assertTrue(true);
-    }
+     public function indexTest(){
+          $con=new ResumeController();
+          $obj= $con->index();
+          echo $obj;
+         $this->assertEquals($email,  'Hhdjfhdfjdfdwfdfahasdad@gmail.com');
+     }
 }
