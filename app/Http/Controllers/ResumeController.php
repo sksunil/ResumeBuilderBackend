@@ -50,7 +50,7 @@ class ResumeController extends Controller
           $resume->{'data.resume.internship'} = $this->getInternship();
         //
         // $projects = $resume['project'];
-          $resume->{'data.resume.projects'} = $this->getProjects();
+          $resume->{'data.resume.project'} = $this->getProjects();
         //
         // $positions = $resume['position'];
           $resume->{'data.resume.position'} = $this->getPositions();
@@ -64,7 +64,7 @@ class ResumeController extends Controller
 
           $resume->{'data.resume.da'} = $this->getDAdetails();
 
-          $resume->{'data.resume.skills'} = $this->getSkills();
+          $resume->{'data.resume.skill'} = $this->getSkills();
         $resume->save();
         return "success";
 
@@ -95,13 +95,13 @@ class ResumeController extends Controller
 
 
     if(empty($data)){
-      return 'user not found';
+      return 'user data not found';
     }
     return $resume;
 
     }
 
-    public function destory()                                   //Delete method
+    public function destroy(Request $request)                                   //Delete method
     {
       try {
 
@@ -115,11 +115,18 @@ class ResumeController extends Controller
       } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
           return response()->json(['token_absent'], $e->getStatusCode());
         }
+        $id = $request->id;
       $user = JWTAuth::parseToken()->toUser();
       $email = $user->email;
-      Resume::where('data.resume.info.email', '='  , $email)->delete();
 
-      return "User removed";
+
+      $resume = Resume::where(['data.resume.info.email' => $email])->get();
+      $template = $resume['0']['data']['templates'];
+
+
+      dd(Resume::where(['data.templates.id' => $id])->select()->get());
+
+      return "Templates removed";
 
     }
 
@@ -174,7 +181,7 @@ class ResumeController extends Controller
       }
       $template = $resume['0']['data'];
 
-      return empty($template['template']) ? 'No templates' : $template['template'];
+      return empty($template['templates']) ? 'No templates' : $template['templates'];
 
     }
 

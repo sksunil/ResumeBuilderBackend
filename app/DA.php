@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class DA extends Model
 {
     //
-    public $experties;
+    public $expertise;
 
-    public $programming_language;
+    public $programming_languages;
 
     public $tools;
 
@@ -18,9 +18,9 @@ class DA extends Model
 
 
 
-    public function __construct($experties,$programming_language,$tools,$technical_electives){
-      $this->experties = $experties;
-      $this->programming_language = $programming_language;
+    public function __construct($expertise,$programming_languages,$tools,$technical_electives){
+      $this->expertise = $expertise;
+      $this->programming_languages = $programming_languages;
       $this->tools =$tools;
       $this->technical_electives = $technical_electives;
 

@@ -13,16 +13,16 @@ class Degree extends Model
 
 
 
-    public $end_year;
+    public $year;
 
     public $score;
 
 
 
-    public function __construct($name,$institute,$end_year,$score){
+    public function __construct($name,$institute,$year,$score){
       $this->name = $name;
       $this->institute = $institute;
-      $this->end_year = $end_year;
+      $this->year = $year;
       $this->score = $score;
 
     }
