@@ -45,7 +45,7 @@ class UserController extends Controller
           'password' => bcrypt($request->get('password'))
         ]);
 
-        
+
           return "registration successful";
     //  return response()->json(['status'=>true,'message'=>'User created successfully','data'=>$user]);
     }
@@ -66,7 +66,7 @@ class UserController extends Controller
             return response()->json(['Invalid email or password'], 422);
            }
         } catch (JWTAuthException $e) {
-            return response()->json(['ailed to create token'], 500);
+            return response()->json(['Failed to create token'], 500);
         }
 
        //return view('layouts.app');

@@ -11,6 +11,7 @@ use App\User;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Mail;
 use JWTAuthException;
+use Validator;
 
 class ChangePassword extends Controller
 {
@@ -20,24 +21,38 @@ class ChangePassword extends Controller
 
   public function postReset(Request $request)
 	{
-		$this->validate($request, [
-			'token' => 'required',
+	$validator = Validator::make($request->all(),[
 			'email' => 'required|email',
-			'password' => 'required|confirmed',
+      'password' => 'required',
+			'new_password' => 'required_with:password_confirmation|min:6',
+      'password_confirmation' =>'required|same:new_password',
 		]);
 
-		$credentials = $request->only(
-			'email', 'password', 'password_confirmation', 'token'
-		);
+   if ($validator->fails()) {
+       //  return redirect()->back()->with('Invalid credentials...');
+         return 'Invalid Credentials...';
+       }
+    else {
 
-      $email=$credentials['email'];
-      $password = bcrypt($credentials['password']);
+    $credentials = $request->only('email','password');
+
+    if (!$token = JWTAuth::attempt($credentials)) {
+     return response()->json(['Invalid email or password'], 422);
+    }
+    else
+    {
+    $new = $request->only('email','new_password');
+     $email=$new['email'];
+      $password = bcrypt($new['new_password']);
+      //dd($password);
       User::where('email', '=' , $email)->update(array('password' => $password));
       return "Password Change sucessFully!";    //return login page
+      //return redirect()->back();
 
     }
+  }
 
-
+}
     public static function otp(){
 
           return ChangePassword::$random_number = intval( "0" . rand(1,9) . rand(0,9) . rand(0,9) . rand(0,9) . rand(0,9) . rand(0,9) ); //
