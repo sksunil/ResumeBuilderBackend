@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Template extends Model
 {
   protected $connection='mongodb';
-  
+
     //
     public $id;
 
@@ -15,8 +15,8 @@ class Template extends Model
 
     public $description;
 
-    public function __construct($id,$name){
+    public function __construct($id){
         $this->id = $id;
-      $this->name = $name;
+      
     }
 }
