@@ -119,10 +119,14 @@ class ResumeController extends Controller
       $user = JWTAuth::parseToken()->toUser();
       $email = $user->email;
 
-    $resume =  Resume::where(['data.resume.info.email' => $email])->get();
+      $resume = Resume::where(['data.resume.info.email' => $email])->get();
+
+   $template = $resume['0']['data']['template'][$id];
+//  dd($template);
+    //dd($id);
+    Resume::where('data.template.id.['.$id.']')->delete();
 
 
-        return $template = $resume['0']['data']['templates'][$id];
 
       return "Templates removed";
 
@@ -148,7 +152,7 @@ class ResumeController extends Controller
         if(empty($request->all())){
           return 'empty';
         }
-      
+
 
       $user = JWTAuth::parseToken()->toUser();
       $email = $user->email;
@@ -186,7 +190,7 @@ class ResumeController extends Controller
       }
       $template = $resume['0']['data'];
 
-      return empty($template['template']) ?  : $template['template'];
+      return empty($template['template']) ?  'No templates': $template['template'];
 
     }
 
