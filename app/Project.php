@@ -11,20 +11,20 @@ class Project extends Model
 
     public $description;
 
-    public $start_date;
+    public $start;
 
-    public $end_date;
+    public $end;
 
     public $team_size;
 
     public $guide;
 
 
-    public function __construct($name,$description,$start_date,$end_date,$team_size,$guide){
+    public function __construct($name,$description,$start,$end,$team_size,$guide){
       $this->name = $name;
       $this->description = $description;
-      $this->start_date = $start_date;
-      $this->end_date = $end_date;
+      $this->start = $start;
+      $this->end = $end;
       $this->team_size = $team_size;
       $this->guide = $guide;
     }

@@ -119,12 +119,10 @@ class ResumeController extends Controller
       $user = JWTAuth::parseToken()->toUser();
       $email = $user->email;
 
-
-      $resume = Resume::where(['data.resume.info.email' => $email])->get();
-      $template = $resume['0']['data']['templates'];
+    $resume =  Resume::where(['data.resume.info.email' => $email])->get();
 
 
-      dd(Resume::where(['data.templates.id' => $id])->select()->get());
+        return $template = $resume['0']['data']['templates'][$id];
 
       return "Templates removed";
 
@@ -145,11 +143,18 @@ class ResumeController extends Controller
       } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
           return response()->json(['token_absent'], $e->getStatusCode());
         }
+
+
+        if(empty($request->all())){
+          return 'empty';
+        }
+      
+
       $user = JWTAuth::parseToken()->toUser();
       $email = $user->email;
 
 
-      Resume::where('data.resume.info.email', '='  , $email)->update($request->all());
+      $resume = Resume::where(['data.resume.info.email' => $email])->update($request->all());
 
          return "update successful";
 
@@ -177,11 +182,11 @@ class ResumeController extends Controller
 
 
       if(empty($data)){
-        return 'user data not found';
+        return 'No templates';
       }
       $template = $resume['0']['data'];
 
-      return empty($template['templates']) ? 'No templates' : $template['templates'];
+      return empty($template['template']) ?  : $template['template'];
 
     }
 
