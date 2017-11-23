@@ -121,7 +121,6 @@ else
 
  }
 
-
  public function updatePassword(Request $request)
 {
 

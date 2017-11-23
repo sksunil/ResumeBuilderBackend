@@ -19,7 +19,7 @@ Route::post('/changePassword', [
 ]);
 
 Route::post('/updatePassword','ChangePassword@updatePassword');
-
+Route::get('/resetEmail','ChangePassword@sendMail');  //sk
 Route::post('/sendOtp','ChangePassword@isExist');     //sk
 
 Route::get('/userProfile', [                           //sk
