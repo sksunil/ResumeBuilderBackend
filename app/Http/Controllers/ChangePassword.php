@@ -19,38 +19,70 @@ class ChangePassword extends Controller
 
   private static $random_number,$user;
 
-  public function postReset(Request $request)
-	{
-	$validator = Validator::make($request->all(),[
-			'email' => 'required|email',
-      'password' => 'required',
-			'new_password' => 'required_with:password_confirmation|min:6',
-      'password_confirmation' =>'required|same:new_password',
-		]);
+//   public function postReset(Request $request)
+// 	{
+// 	$validator = Validator::make($request->all(),[
+// 			'email' => 'required|email',
+//       'password' => 'required',
+// 			'new_password' => 'required_with:password_confirmation|min:6',
+//       'password_confirmation' =>'required|same:new_password',
+// 		]);
+//
+//    if ($validator->fails()) {
+//        //  return redirect()->back()->with('Invalid credentials...');
+//          return 'Invalid Credentials...';
+//        }
+//     else {
+//
+//     $credentials = $request->only('email','password');
+//
+//     if (!$token = JWTAuth::attempt($credentials)) {
+//      return response()->json(['Invalid email or password'], 422);
+//     }
+//     else
+//     {
+//     $new = $request->only('email','new_password');
+//      $email=$new['email'];
+//       $password = bcrypt($new['new_password']);
+//       //dd($password);
+//       User::where('email', '=' , $email)->update(array('password' => $password));
+//       return "Password Change sucessFully!";    //return login page
+//       //return redirect()->back();
+//
+//     }
+//   }
+//
+// }
 
-   if ($validator->fails()) {
-       //  return redirect()->back()->with('Invalid credentials...');
-         return 'Invalid Credentials...';
-       }
-    else {
+public function postReset(Request $request)
+{
+$validator = Validator::make($request->all(),[
+    'email' => 'required|email',
+    'new_password' => 'required_with:password_confirmation|min:6',
+    'password_confirmation' =>'required|same:new_password',
+  ]);
 
-    $credentials = $request->only('email','password');
+ if ($validator->fails()) {
+       return 'Invalid Credentials...';
+     }
+  else {
 
-    if (!$token = JWTAuth::attempt($credentials)) {
-     return response()->json(['Invalid email or password'], 422);
-    }
-    else
-    {
+  $email=$request['email'];
+  if(User::where('email', '='  , $email)->value('name')!=null)
+  {
     $new = $request->only('email','new_password');
-     $email=$new['email'];
-      $password = bcrypt($new['new_password']);
-      //dd($password);
-      User::where('email', '=' , $email)->update(array('password' => $password));
-      return "Password Change sucessFully!";    //return login page
-      //return redirect()->back();
+    $email=$new['email'];
+    $password = bcrypt($new['new_password']);
+    User::where('email', '=' , $email)->update(array('password' => $password));
+    return "Password Change Sucessfully!!!";    //return login page
+    //return redirect()->back();
+}
+else
+{
+  return "Invalid Email!!..";
+}
 
-    }
-  }
+}
 
 }
     public static function otp(){
