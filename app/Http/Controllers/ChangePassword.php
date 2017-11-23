@@ -116,8 +116,31 @@ else
         }
        else {
              ChangePassword::sendmail($email);
-             dd(ChangePassword::$random_number);            //otp for chacking
+             return (ChangePassword::$random_number); 
        }
 
  }
+
+ 
+public function updatePassword(Request $request)
+{
+
+  $email=$request['email'];
+  if(User::where('email', '='  , $email)->value('name')!=null)
+  {
+    $new = $request->only('email','new_password');
+    $email=$new['email'];
+    $password = bcrypt($new['new_password']);
+    User::where('email', '=' , $email)->update(array('password' => $password));
+    return "Password Change Sucessfully!!!";    //return login page
+    //return redirect()->back();
+}
+else
+{
+  return "Invalid Email!!..";
+}
+
+
+
+}
 }

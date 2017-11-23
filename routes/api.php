@@ -18,6 +18,8 @@ Route::post('/changePassword', [
   'middleware' => 'jwt'
 ]);
 
+Route::post('/updatePassword','ChangePassword@updatePassword');
+
 Route::get('/resetEmail','ChangePassword@sendMail');  //sk
 Route::post('/sendOtp','ChangePassword@isExist');     //sk
 
