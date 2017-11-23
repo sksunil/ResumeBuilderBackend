@@ -81,14 +81,32 @@ return [
         'mongodb' => [
           'driver'   => 'mongodb',
           'host'     => env('DB_HOST', 'localhost'),
-          'port'     => 27017,
+          'port'     => env('DB_PORT', 27017),
           'database' => env('DB_DATABASE',''),
-          'username' => env('MONGO_USERNAME',''),
-          'password' => env('MONGO_PASSWORD',''),
+          'username' => env('DB_USERNAME',''),
+          'password' => env('DB_PASSWORD',''),
           'options'  => [
-              'database' => 'admin' // sets11 the authentication database required by mongo 3
-                ]
-                ],
+              'database' => 'resume-builder' // sets11 the authentication database required by mongo 3
+            ]   
+        ],
+
+        'atlas' => [ 
+            'driver' => 'mongodb', 
+            'host' => 
+                [ 
+                    'cluster0-shard-00-00-vqpmy.mongodb.net:27017', 
+                    'cluster0-shard-00-01-vqpmy.mongodb.net:27017', 
+                    'cluster0-shard-00-02-vqpmy.mongodb.net:27017' 
+                ], 
+            'database' => 'admin', 
+            'username' => 'root', 
+            'password' => 'root', 
+            'options' => [ 
+                'replicaSet' => 'Cluster0-shard-0', 
+                'ssl' => 'true', 
+                'authSource' => 'admin' 
+                ] 
+            ],
 
     ],
 
