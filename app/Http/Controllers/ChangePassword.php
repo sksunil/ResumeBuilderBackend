@@ -121,8 +121,8 @@ else
 
  }
 
- 
-public function updatePassword(Request $request)
+
+ public function updatePassword(Request $request)
 {
 
   $email=$request['email'];
