@@ -62,7 +62,7 @@ class ResumeController extends Controller
      $user->{'data.resume.internship'} = $this->getInternship($internships);
 
      $projects = $resume['project'];
-     $user->{'data.resume.projects'} = $this->getProjects($projects);
+     $user->{'data.resume.project'} = $this->getProjects($projects);
 
      $positions = $resume['position'];
      $user->{'data.resume.position'} = $this->getPositions($positions);
@@ -73,6 +73,13 @@ class ResumeController extends Controller
 
      $hobbies = $resume['hobby'];
      $user->{'data.resume.hobby'} = $this->getHobby($hobbies);
+
+     $skills = $resume['skill'];
+     $user->{'data.resume.skill'} = $this->getSkills($skills);
+
+
+      $das = $resume['da'];
+      $user->{'data.resume.da'} = $this->getDAdetails($das);
 
      $user->save();
      return "success";
