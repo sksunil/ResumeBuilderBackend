@@ -116,11 +116,10 @@ else
         }
        else {
              ChangePassword::sendmail($email);
-             dd(ChangePassword::$random_number);            //otp for chacking
+             return (ChangePassword::$random_number); 
        }
 
  }
-
 
  public function updatePassword(Request $request)
 {
